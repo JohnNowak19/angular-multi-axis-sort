@@ -7,12 +7,12 @@ angular.module('displayor', [])
       transclude: true,
       scope: {},
       controller: function($scope){//, $element) {
-        var items = $scope.items = [];
-        this.addThing = function(child) {
-          items.push(child);
-        };
+        //var items = $scope.items = [];
+        //this.addThing = function(child) {
+        //  items.push(child);
+        //};
       },
-      template: '<div><ul ng-transclude/></div>',
+      template: '<ul ng-transclude/>',
       replace: true,
     };
   })
@@ -36,7 +36,7 @@ angular.module('displayor', [])
           });
         });
 
-        $parent.addThing($scope);
+        //$parent.addThing($scope);
       },
       template: '<li ng-transclude/>',
       replace: true,
