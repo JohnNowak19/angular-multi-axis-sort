@@ -29,6 +29,7 @@ describe('directive: displayors', function() {
       expect(element.find('li').length).toEqual(1);
     });
 
+    // FIXME: Why do we use $emit here, but $broadcast in the main code?
     it('should receive on the right topic', function() {
       var li = element.find('li');
 
