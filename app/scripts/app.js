@@ -26,12 +26,12 @@ angular
         controllerAs: 'main'
       })
       .when('/small', {
-        templateUrl: 'views/small.html',
+        templateUrl: 'views/display.html',
         controller: 'SmallCtrl',
         controllerAs: 'small'
       })
       .when('/large', {
-        templateUrl: 'views/large.html',
+        templateUrl: 'views/display.html',
         controller: 'LargeCtrl',
         controllerAs: 'large'
       })

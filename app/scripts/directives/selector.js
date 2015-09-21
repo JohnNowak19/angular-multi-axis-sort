@@ -1,7 +1,24 @@
 'use strict';
 
 angular.module('selector', [])
-  .directive('selectors', function () {
+  .directive('selectors', [ '$rootScope', function ($rootScope) {
+    $rootScope.buildSelectors = function (things) {
+      var selectors = {};
+      angular.forEach(things, function(attrs, _) {
+        angular.forEach(attrs, function(value, name) {
+          if (!selectors[name]) selectors[name] = {};
+          selectors[name][value] = true;
+        });
+      });
+
+      var rv = {};
+      angular.forEach(selectors, function (values, name) {
+        rv[name] = Object.keys(values).sort();
+      });
+
+      return rv;
+    };
+
     return {
       restrict: 'E',
       transclude: true,
@@ -10,7 +27,7 @@ angular.module('selector', [])
       template: '<div><ul ng-transclude/></div>',
       replace: true,
     };
-  })
+  }])
   .directive('selector', [ '$rootScope', function($rootScope) {
     return {
       require: '^selectors',
