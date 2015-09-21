@@ -438,9 +438,27 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    // Test coverage enforcement
+    coverage: {
+      default: {
+        options: {
+          thresholds: {
+            'statements': 90,
+            'branches': 90,
+            'lines': 90,
+            'functions': 90
+          },
+          dir: 'coverage/report-json',
+          root: 'test'
+        }
+      }
     }
   });
 
+  // It's not clear why this isn't working yet.
+  grunt.loadNpmTasks('grunt-istanbul-coverage');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {

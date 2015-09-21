@@ -1,9 +1,11 @@
+'use strict';
+
 describe('directive: selectors', function() {
   var element, scope;
 
   beforeEach(module('angularApp'));
 
-  beforeEach(inject(function($rootScope, $compile) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
 
     scope.aspect = 'Aspect';
