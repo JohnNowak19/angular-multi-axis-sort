@@ -2,16 +2,17 @@
 
 /**
  * @ngdoc function
- * @name angularApp.controller:AboutCtrl
+ * @name angularApp.controller:SmallCtrl
  * @description
- * # AboutCtrl
+ * # SmallCtrl
  * Controller of the angularApp
  */
 angular.module('angularApp')
-  .controller('AboutCtrl', function () {
+  .controller('SmallCtrl', [ '$location', function ($location) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-  });
+  }])
+;

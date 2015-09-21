@@ -25,12 +25,24 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
+      .when('/small', {
+        templateUrl: 'views/small.html',
+        controller: 'SmallCtrl',
+        controllerAs: 'small'
+      })
+      .when('/large', {
+        templateUrl: 'views/large.html',
+        controller: 'LargeCtrl',
+        controllerAs: 'large'
       })
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .run(['$rootScope', '$location', function($rootScope, $location){
+    var path = function() { return $location.path();};
+    $rootScope.$watch(path, function(newVal, oldVal){
+      $rootScope.activetab = newVal;
+    });
+  }])
+;

@@ -38,9 +38,9 @@
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/about">About</a></li>
-              <li><a ng-href="#/contact">Contact</a></li>
+              <li ng-class="{active: (activetab == '/')}"><a ng-href="#/">Home</a></li>
+              <li ng-class="{active: (activetab == '/small')}"><a ng-href="#/small">Small</a></li>
+              <li ng-class="{active: (activetab == '/large')}"><a ng-href="#/large">Large</a></li>
             </ul>
           </div>
         </div>
@@ -87,7 +87,8 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/about.js"></script>
+        <script src="scripts/controllers/small.js"></script>
+        <script src="scripts/controllers/large.js"></script>
         <script src="scripts/directives/displayor.js"></script>
         <script src="scripts/directives/selector.js"></script>
         <!-- endbuild -->
