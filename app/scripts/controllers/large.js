@@ -8,7 +8,7 @@
  * Controller of the angularApp
  */
 angular.module('angularApp')
-  .controller('LargeCtrl', [ '$rootScope', '$scope', function ($rootScope, $scope) {
+  .controller('LargeCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
     $scope.things = {
       'Blue Coconut': { size: 'Large', color: 'Blue' },
       'Pomegrante': { size: 'Large', color: 'Red' },
