@@ -457,7 +457,7 @@ module.exports = function (grunt) {
     }
   });
 
-  // It's not clear why this isn't working yet.
+  // FIXME: It's not clear why this isn't working yet.
   grunt.loadNpmTasks('grunt-istanbul-coverage');
 
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
