@@ -1,22 +1,17 @@
 <h2>Sorting</h2>
-<div><p>Sizes</p>
-<selectors>
-  <div><selector title="Large"/></div>
-  <div><selector title="Small"/></div>
-</selectors>
-</div>
-<div><p>Colors</p>
-<selectors>
-  <div><selector title="Blue"/></div>
-  <div><selector title="Red"/></div>
-</selectors>
+<div ng-repeat='(header, values) in selectors'>
+  <p>{{header}}</p>
+  <selectors>
+    <div ng-repeat='aspect in values'>
+      <selector title="{{aspect}}"/>
+  </div>
+  </selectors>
 </div>
 <hr/>
-<div>
+<div><p>Things to select from:</p>
 <things>
-  <div><thing size="Large" color="Blue"/></div>
-  <div><thing size="Large" color="Red"/></div>
-  <div><thing size="Small" color="Blue"/></div>
-  <div><thing size="Small" color="Red"/></div>
+  <div ng-repeat='(name, params) in things'>
+    <thing size="{{params.size}}" color="{{params.color}}">{{name}}</thing>
+  </div>
 </things>
 </div>

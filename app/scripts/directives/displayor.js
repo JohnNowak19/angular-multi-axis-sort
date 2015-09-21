@@ -23,29 +23,22 @@ angular.module('displayor', [])
       transclude: true,
       scope: {},
       link: function($scope, element, attrs, $parent) {
-        $scope.size = attrs.size;
-        $scope.color = attrs.color;
-        $parent.addThing($scope);
+        var invoke = { 'true': 'removeClass', 'false': 'addClass' };
 
-        $rootScope.$on( 'display:'+$scope.size, function (event, data) {
-          if (data) {
-            element.removeClass('ng-hide');
-          }
-          else {
-            element.addClass('ng-hide');
-          }
+        angular.forEach(['size', 'color'], function (param) {
+          $scope[param] = attrs[param];
+
+          angular.forEach(invoke, function (action, cond) {
+            $rootScope.$on(
+              ['display', $scope[param], cond].join(':'),
+              function () { element[action]('ng-hide'); }
+            );
+          });
         });
-        $rootScope.$on( 'display:'+$scope.color, function (event, data) {
-          if (data) {
-            element.removeClass('ng-hide');
-          }
-          else {
-            element.addClass('ng-hide');
-          }
-        });
+
+        $parent.addThing($scope);
       },
-      controller: function(){},//$scope, $element) {},
-      template: '<li>{{size}} - {{color}}</li>',
+      template: '<li ng-transclude/>',
       replace: true,
     };
   }])

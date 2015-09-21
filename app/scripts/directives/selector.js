@@ -6,7 +6,7 @@ angular.module('selector', [])
       restrict: 'E',
       transclude: true,
       scope: {},
-      controller: function(){},//$scope, $element) {},
+      controller: function(){}, // This controller is required.
       template: '<div><ul ng-transclude/></div>',
       replace: true,
     };
@@ -23,7 +23,9 @@ angular.module('selector', [])
       },
       controller: function($scope) {//, $element) {
         $scope.select = function() {
-          $rootScope.$broadcast('display:'+$scope.title, $scope.selected);
+          $rootScope.$broadcast([
+            'display', $scope.title, $scope.selected
+          ].join(':'));
         };
       },
       template:
