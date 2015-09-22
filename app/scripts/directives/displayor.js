@@ -23,17 +23,27 @@ angular.module('displayor', [])
       transclude: true,
       scope: {},
       link: function($scope, element, attrs, $parent) {
-        var invoke = { 'true': 'removeClass', 'false': 'addClass' };
-
+        $scope.attributesSet = {};
         angular.forEach(['size', 'color'], function (param) {
           $scope[param] = attrs[param];
 
-          angular.forEach(invoke, function (action, cond) {
-            $rootScope.$on(
-              ['display', $scope[param], cond].join(':'),
-              function () { element[action]('ng-hide'); }
-            );
-          });
+          $rootScope.$on(
+            ['display', $scope[param], false].join(':'),
+            function () {
+              $scope.attributesSet[param] = true;
+              element.addClass('ng-hide');
+            }
+          );
+
+          $rootScope.$on(
+            ['display', $scope[param], true].join(':'),
+            function () {
+              delete $scope.attributesSet[param];
+              if (Object.keys($scope.attributesSet).length == 0) {
+                element.removeClass('ng-hide');
+              }
+            }
+          );
         });
 
         $parent.addThing($scope);
