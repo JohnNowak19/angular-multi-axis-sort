@@ -39,7 +39,7 @@ angular.module('displayor', [])
             ['display', $scope[param], true].join(':'),
             function () {
               delete $scope.attributesSet[param];
-              if (Object.keys($scope.attributesSet).length == 0) {
+              if (Object.keys($scope.attributesSet).length === 0) {
                 element.removeClass('ng-hide');
               }
             }

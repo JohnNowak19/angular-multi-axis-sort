@@ -36,7 +36,7 @@ describe('directive: selectors', function() {
       angular.forEach([true, false], function (val) {
         scope.$on(
           ['display', 'Blue', val].join(':'),
-          function () { selected = val }
+          function () { selected = val; }
         );
       });
 

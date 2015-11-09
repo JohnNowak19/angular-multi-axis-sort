@@ -10,9 +10,9 @@ describe('Controller: LargeCtrl', function () {
     // Injecting this here because there's a dependency on the selector directive
     $rootScope.buildSelectors = function (things) {
       var selectors = {};
-      angular.forEach(things, function(attrs, _) {
+      angular.forEach(things, function(attrs, _) { // jshint ignore:line
         angular.forEach(attrs, function(value, name) {
-          if (!selectors[name]) selectors[name] = {};
+          if (!selectors[name]) { selectors[name] = {}; }
           selectors[name][value] = true;
         });
       });
