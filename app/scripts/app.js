@@ -28,12 +28,27 @@ angular
       .when('/small', {
         templateUrl: 'views/display.html',
         controller: 'SmallCtrl',
-        controllerAs: 'small'
+        controllerAs: 'small',
+        things: {
+          'Blue Coconut': { size: 'Large', color: 'Blue' },
+          'Pomegrante': { size: 'Large', color: 'Red' },
+          'Blueberry': { size: 'Small', color: 'Blue' },
+          'Cherry': { size: 'Small', color: 'Red' }
+        }
       })
       .when('/large', {
         templateUrl: 'views/display.html',
         controller: 'LargeCtrl',
-        controllerAs: 'large'
+        controllerAs: 'large',
+        things: {
+          'Blue Coconut': { size: 'Large', color: 'Blue' },
+          'Pomegrante': { size: 'Large', color: 'Red' },
+          'Cocunut': { size: 'Large', color: 'Green' },
+          'Apple': { size: 'Medium', color: 'Red' },
+          'Banana': { size: 'Medium', color: 'Yellow' },
+          'Blueberry': { size: 'Small', color: 'Blue' },
+          'Cherry': { size: 'Small', color: 'Red' }
+        }
       })
       .otherwise({
         redirectTo: '/'

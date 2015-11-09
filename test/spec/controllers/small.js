@@ -28,7 +28,20 @@ describe('Controller: SmallCtrl', function () {
     scope = $rootScope.$new();
     SmallCtrl = $controller('SmallCtrl', {
       $rootScope: $rootScope,
-      $scope: scope
+      $scope: scope,
+      $route: {
+        current: {
+          '$$route': {
+            things: {
+              'Blue Coconut': { size: 'Large', color: 'Blue' },
+              'Pomegrante': { size: 'Large', color: 'Red' },
+              'Blueberry': { size: 'Small', color: 'Blue' },
+              'Cherry': { size: 'Small', color: 'Red' }
+            }
+          }
+        }
+      }
+
       // place here mocked dependencies
     });
   }));
