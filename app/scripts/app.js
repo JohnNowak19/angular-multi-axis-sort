@@ -27,7 +27,7 @@ angular
       })
       .when('/small', {
         templateUrl: 'views/display.html',
-        controller: 'SmallCtrl',
+        controller: 'StuffContrl',
         controllerAs: 'small',
         things: {
           'Blue Coconut': { size: 'Large', color: 'Blue' },
@@ -38,7 +38,7 @@ angular
       })
       .when('/large', {
         templateUrl: 'views/display.html',
-        controller: 'LargeCtrl',
+        controller: 'StuffContrl',
         controllerAs: 'large',
         things: {
           'Blue Coconut': { size: 'Large', color: 'Blue' },

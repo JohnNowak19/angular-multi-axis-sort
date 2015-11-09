@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Controller: SmallCtrl', function () {
+describe('Controller: StuffContrl', function () {
   beforeEach(module('angularApp'));
 
-  var SmallCtrl, scope;
+  var StuffContrl, scope;
 
-  // Initialize the controller and a mock scope
+  // Initialize the controller and a mock scope and a mock route
   beforeEach(inject(function ($controller, $rootScope) {
     // Injecting this here because there's a dependency on the selector directive
     $rootScope.buildSelectors = function (things) {
@@ -26,7 +26,7 @@ describe('Controller: SmallCtrl', function () {
     };
 
     scope = $rootScope.$new();
-    SmallCtrl = $controller('SmallCtrl', {
+    StuffContrl = $controller('StuffContrl', {
       $rootScope: $rootScope,
       $scope: scope,
       $route: {
@@ -35,13 +35,15 @@ describe('Controller: SmallCtrl', function () {
             things: {
               'Blue Coconut': { size: 'Large', color: 'Blue' },
               'Pomegrante': { size: 'Large', color: 'Red' },
+              'Cocunut': { size: 'Large', color: 'Green' },
+              'Apple': { size: 'Medium', color: 'Red' },
+              'Banana': { size: 'Medium', color: 'Yellow' },
               'Blueberry': { size: 'Small', color: 'Blue' },
               'Cherry': { size: 'Small', color: 'Red' }
             }
           }
         }
       }
-
       // place here mocked dependencies
     });
   }));
@@ -50,6 +52,6 @@ describe('Controller: SmallCtrl', function () {
     expect(Object.keys(scope.selectors).length).toBe(2);
   });
   it('should attach a hash of things to the scope', function () {
-    expect(Object.keys(scope.things).length).toBe(4);
+    expect(Object.keys(scope.things).length).toBe(7);
   });
 });
