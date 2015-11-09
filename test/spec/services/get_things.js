@@ -3,13 +3,18 @@
 describe('Service: getThings', function () {
   beforeEach(module('angularApp'));
 
-  describe('myService test', function(){
-    describe('when I call stuff.things', function(){
-      it('returns 1', function(){
-        var $injector = angular.injector([ 'myThings' ]);
-        var myService = $injector.get( 'myThingsService' );
-        expect( myService.one ).toEqual(1);
+  describe('calls to get_many', function(){
+    describe('responds in the callback', function(){
+      it('with stuff', function(done) {
+        var $injector = angular.injector([ 'myModule' ]);
+        var myService = $injector.get( 'myThingsService');
+
+        myService.get_many(function (stuff) {
+          expect(stuff).toEqual({});
+          done();
+        });
       });
     });
-  });  
+  });
+
 });

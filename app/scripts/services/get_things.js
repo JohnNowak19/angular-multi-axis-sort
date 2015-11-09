@@ -1,14 +1,11 @@
 'use strict';
 
-var myModule = angular.module('myThings', []);
+angular.module('myModule', []).factory('myThingsService', function() {
+  var serviceImplementation = {
+  	"get_many": function (callback) {
+      callback({});
+  	}
+  };
 
-myModule.factory('myThingsService', function(){
-
-     var serviceImplementation   = {};
-     serviceImplementation.one   = 1;
-    // serviceImplementation.two   = 2;
-    // serviceImplementation.three = 3;
-
-     return serviceImplementation;
-
+  return serviceImplementation;
 });
