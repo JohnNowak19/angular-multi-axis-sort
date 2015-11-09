@@ -8,8 +8,25 @@
  * Controller of the angularApp
  */
 angular.module('angularApp')
-  .controller('StuffContrl', ['$scope', '$rootScope', '$route', function ($scope, $rootScope, $route) {
+  .controller('StuffContrl', ['$scope', '$route', function ($scope, $route) {
     $scope.things = $route.current.$$route.things;
-    $scope.selectors = $rootScope.buildSelectors( $scope.things );
+   	var buildSelectors = function (things) {
+      var selectors = {};
+      // JSHint ignoring for unused variable '_'
+      angular.forEach(things, function(attrs, _) { // jshint ignore:line
+        angular.forEach(attrs, function(value, name) {
+          if (!selectors[name]) { selectors[name] = {}; }
+          selectors[name][value] = true;
+        });
+      });
+
+      var rv = {};
+      angular.forEach(selectors, function (values, name) {
+        rv[name] = Object.keys(values).sort();
+      });
+
+      return rv;
+    };
+    $scope.selectors = buildSelectors( $scope.things );
   }])
 ;

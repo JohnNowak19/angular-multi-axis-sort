@@ -1,25 +1,7 @@
 'use strict';
  
 angular.module('selector', [])
-  .directive('selectors', [ '$rootScope', function ($rootScope) {
-    $rootScope.buildSelectors = function (things) {
-      var selectors = {};
-      // JSHint ignoring for unused variable '_'
-      angular.forEach(things, function(attrs, _) { // jshint ignore:line
-        angular.forEach(attrs, function(value, name) {
-          if (!selectors[name]) { selectors[name] = {}; }
-          selectors[name][value] = true;
-        });
-      });
-
-      var rv = {};
-      angular.forEach(selectors, function (values, name) {
-        rv[name] = Object.keys(values).sort();
-      });
-
-      return rv;
-    };
-
+  .directive('selectors', [ function () {
     return {
       restrict: 'E',
       transclude: true,
