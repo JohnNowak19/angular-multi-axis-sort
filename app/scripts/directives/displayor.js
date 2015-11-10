@@ -23,7 +23,8 @@ angular.module('displayor', [])
       transclude: true,
       scope: {},
       link: function($scope, element, attrs, $parent) {
-        $scope.is_unselected = {};
+        var visibility = {};
+
         angular.forEach(['size', 'color'], function (param) {
           var values = [];
           if (param === 'color') {
@@ -33,22 +34,33 @@ angular.module('displayor', [])
             values = [attrs[param]];
           }
 
-          //$scope[param] = values;
+          var is_visible = function (param) {
+            var hideme = true;
+            angular.forEach(visibility[param], function (visible) {
+              if (visible) { hideme = false; }
+            });
+            return !hideme;
+          };
 
+          visibility[param] = {};
           angular.forEach(values, function(value) {
+            // Always start as being visible
+            visibility[param][value] = true;
+
             $rootScope.$on(
               ['display', value, false].join(':'),
               function () {
-                $scope.is_unselected[[param, value].join(':') ] = true;
-                element.addClass('ng-hide');
+                visibility[param][value] = false;
+
+                if (!is_visible(param)) { element.addClass('ng-hide'); }
               }
             );
 
             $rootScope.$on(
               ['display', value, true].join(':'),
               function () {
-                delete $scope.is_unselected[[param, value].join(':')];
-                if (Object.keys($scope.is_unselected).length === 0) {
+                visibility[param][value] = true;
+                if (is_visible('size') && is_visible('color')) {
                   element.removeClass('ng-hide');
                 }
               }

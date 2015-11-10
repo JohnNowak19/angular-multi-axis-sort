@@ -16,21 +16,24 @@ describe('directive: displayors', function() {
     scope.$digest();
   }
 
+  function is_visible(elem) {
+    expect(elem.hasClass('ng-hide')).toBeFalsy();
+  }
+  function is_hidden(elem) {
+    expect(elem.hasClass('ng-hide')).toBeTruthy();
+  }
 
-    function is_visible(elem) {
-      expect(elem.hasClass('ng-hide')).toBeFalsy();
-    }
-    function is_hidden(elem) {
-      expect(elem.hasClass('ng-hide')).toBeTruthy();
-    }
+  // FIXME: Why do we use $emit here, but $broadcast in the main code?
+  function hide_on(attr){
+    scope.$emit(['display', attr, false].join(':'));
+  }
+  function show_on(attr){
+    scope.$emit(['display', attr, true].join(':'));
+  }
 
-    function hide_on(attr){
-      scope.$emit(['display', attr, false].join(':'));
-    }
-
-    function show_on(attr){
-      scope.$emit(['display', attr, true].join(':'));
-    }
+  function matches_itself(elm, text){
+    expect(elm.text()).toEqual(''+text+'');
+  }
 
   describe('creating a displayor', function() {
     beforeEach(function () {
@@ -45,47 +48,47 @@ describe('directive: displayors', function() {
       expect(element.find('li').length).toEqual(1);
     });
 
-    // FIXME: Why do we use $emit here, but $broadcast in the main code?
     it('should receive on the right topic', function() {
       var li = element.find('li');
 
-      // This doesn't change anything
-      hide_on('Blue');
-      show_on('Blue');
+      // We start as visible.
+      is_visible(li);
 
+      // This doesn't change anything
       show_on('Blue');
       is_visible(li);
 
-      // This hides the element
+      // This doesn't hide the element (green is still visible)
       hide_on('Blue');
-      is_hidden(li);
+      is_visible(li);
 
-      // This doesn't do anything once hidden
+      // This doesn't do anything when called twice
       hide_on('Blue');
-      is_hidden(li);
+      is_visible(li);
 
-      // This shows the element again
+      // This doesn't change anything if blue is now visible
       show_on('Blue');
       is_visible(li);
       
-      // This hides the element because of Green
+      // This also doesn't hide the element (green only, but blue still visible)
       hide_on('Green');
+      is_visible(li);
+
+      // NOW we're finally hidden (both blue and green are hidden)
+      hide_on('Blue');
       is_hidden(li);
 
-      // This shows the element because of Blue (and Green is still hiding)
+      // This shows the element because of Blue (but Green is still hiding)
       show_on('Blue');
-      is_hidden(li);
+      is_visible(li);
 
-      // This tries to show the element because of Blue (but Green is still hiding)
-      show_on('Blue');
-      is_hidden(li);
-
-      // This shows the element because of Green
+      // This doesn't change anything (already visible)
       show_on('Green');
       is_visible(li);
 
     });
   });
+
 
   describe('for all attributes', function() {
     beforeEach(function () {
@@ -98,29 +101,26 @@ describe('directive: displayors', function() {
       );
     });
 
-    // FIXME: Why do we use $emit here, but $broadcast in the main code?
     it('will only display', function() {
       var li = element.find('li');
 
       var blue_small = angular.element(li[0]);
-      expect(blue_small.text()).toEqual('blue-small');
-      //is_visible(blue_small');
+      matches_itself( blue_small, 'blue-small');
+      is_visible(blue_small);
 
       var blue_large = angular.element(li[1]);
-      expect(blue_large.text()).toEqual('blue-large');
-      //is_visible(blue_large');
-      //(blue_large.hasClass('ng-hide')).toBeFalsy();
+      matches_itself( blue_large, 'blue-large' );
+      is_visible(blue_large);
 
       var red_large = angular.element(li[2]);
-      expect(red_large.text()).toEqual('red-large');
-      //is_visible(red_large');
+      matches_itself( red_large, 'red-large' );
+      is_visible(red_large);
 
       // Turn off all selectors
       hide_on('Blue');
       is_hidden(blue_small);
       is_hidden(blue_large);
       is_visible(red_large);
-
 
       hide_on('Small');
       is_hidden(blue_small);
@@ -154,4 +154,5 @@ describe('directive: displayors', function() {
       is_hidden(red_large);
     });
   });
+
 });
