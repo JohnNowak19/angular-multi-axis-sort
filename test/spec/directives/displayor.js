@@ -16,6 +16,22 @@ describe('directive: displayors', function() {
     scope.$digest();
   }
 
+
+    function is_visible(elem) {
+      expect(elem.hasClass('ng-hide')).toBeFalsy();
+    }
+    function is_hidden(elem) {
+      expect(elem.hasClass('ng-hide')).toBeTruthy();
+    }
+
+    function hide_on(attr){
+      scope.$emit(['display', attr, false].join(':'));
+    }
+
+    function show_on(attr){
+      scope.$emit(['display', attr, true].join(':'));
+    }
+
   describe('creating a displayor', function() {
     beforeEach(function () {
       compile(
@@ -33,36 +49,41 @@ describe('directive: displayors', function() {
     it('should receive on the right topic', function() {
       var li = element.find('li');
 
-      expect(li.hasClass('ng-hide')).toBeFalsy();
-
       // This doesn't change anything
-      scope.$emit(['display', 'Blue', true].join(':'));
-      expect(li.hasClass('ng-hide')).toBeFalsy();
+      hide_on('Blue');
+      show_on('Blue');
+
+      show_on('Blue');
+      is_visible(li);
 
       // This hides the element
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Blue');
+      is_hidden(li);
 
       // This doesn't do anything once hidden
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Blue');
+      is_hidden(li);
 
       // This shows the element again
-      scope.$emit(['display', 'Blue', true].join(':'));
-      expect(li.hasClass('ng-hide')).toBeFalsy();
-
+      show_on('Blue');
+      is_visible(li);
+      
       // This hides the element because of Green
-      scope.$emit(['display', 'Green', false].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
-      // This hides the element because of Blue (and Green is still hiding)
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Green');
+      is_hidden(li);
+
+      // This shows the element because of Blue (and Green is still hiding)
+      show_on('Blue');
+      is_hidden(li);
+
       // This tries to show the element because of Blue (but Green is still hiding)
-      scope.$emit(['display', 'Blue', true].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
+      show_on('Blue');
+      is_hidden(li);
+
       // This shows the element because of Green
-      scope.$emit(['display', 'Green', true].join(':'));
-      expect(li.hasClass('ng-hide')).toBeFalsy();
+      show_on('Green');
+      is_visible(li);
+
     });
   });
 
@@ -83,52 +104,54 @@ describe('directive: displayors', function() {
 
       var blue_small = angular.element(li[0]);
       expect(blue_small.text()).toEqual('blue-small');
-      expect(blue_small.hasClass('ng-hide')).toBeFalsy();
+      //is_visible(blue_small');
 
       var blue_large = angular.element(li[1]);
       expect(blue_large.text()).toEqual('blue-large');
-      expect(blue_large.hasClass('ng-hide')).toBeFalsy();
+      //is_visible(blue_large');
+      //(blue_large.hasClass('ng-hide')).toBeFalsy();
 
       var red_large = angular.element(li[2]);
       expect(red_large.text()).toEqual('red-large');
-      expect(red_large.hasClass('ng-hide')).toBeFalsy();
+      //is_visible(red_large');
 
       // Turn off all selectors
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeFalsy();
+      hide_on('Blue');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_visible(red_large);
 
-      scope.$emit(['display', 'Small', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeFalsy();
 
-      scope.$emit(['display', 'Red', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Small');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_visible(red_large);
 
-      scope.$emit(['display', 'Large', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Red');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
+
+      hide_on('Large');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
 
       // Show the Blue things
-      scope.$emit(['display', 'Blue', true].join(':'));
+      show_on('Blue');
 
       // Everything should remain hidden
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
 
       // Show the Small things
-      scope.$emit(['display', 'Small', true].join(':'));
+      show_on('Small');
 
       // Only the blue-small thing should be shown
-      expect(blue_small.hasClass('ng-hide')).toBeFalsy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      is_visible(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
     });
   });
 });

@@ -29,7 +29,7 @@ angular.module('displayor', [])
           if (param === 'color') {
             values = attrs[param].split(',');
           }
-          else if (param === 'size') {
+          else { //if (param === 'size') {
             values = [attrs[param]];
           }
 
