@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name angularApp.controller:StuffContrl
+ * @name angularApp.controller:fruitContrl
  * @description
- * # StuffContrl
+ * # fruitContrl
  * Controller of the angularApp
  */
 angular.module('angularApp')
-  .controller('StuffContrl', ['$scope', '$routeParams', 'myThingsService', function ($scope, $routeParams, myThingsService) {
+  .controller('fruitContrl', ['$scope', '$routeParams', 'communicationService', function ($scope, $routeParams, communicationService) {
    	var buildSelectors = function (things) {
       var selectors = {};
       // JSHint ignoring for unused variable '_'
@@ -27,9 +27,9 @@ angular.module('angularApp')
       return rv;
     };
 
-    myThingsService.get_data($routeParams.call_type, function(data) {
+    communicationService.get_data($routeParams.call_type, function(data) {
       $scope.things = data;
-	  $scope.selectors = buildSelectors( $scope.things );
+	    $scope.selectors = buildSelectors( $scope.things );
     });
   }])
 ;

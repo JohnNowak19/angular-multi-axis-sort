@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myModule', []).factory('myThingsService', function() {
+angular.module('myModule', []).factory('communicationService', function() {
   var impl = {};
 
   var data = {

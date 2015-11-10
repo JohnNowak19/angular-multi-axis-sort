@@ -1,16 +1,16 @@
 'use strict';
 
-describe('Controller: StuffContrl', function () {
+describe('Controller: fruitContrl', function () {
   beforeEach(module('angularApp'));
 
   var scope;
 
-  beforeEach(inject(function ($controller, $rootScope, myThingsService) {
+  beforeEach(inject(function ($controller, $rootScope, communicationService) {
     scope = $rootScope.$new();
-    $controller('StuffContrl', {
+    $controller('fruitContrl', {
       '$scope': scope,
       '$routeParams': {'call_type': 'many'},
-      'myThingsService': myThingsService
+      'communicationService': communicationService
     });
   }));
 

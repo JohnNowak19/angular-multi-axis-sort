@@ -16,7 +16,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'displayor', 'selector', 'myModule'
+    'displayor', 
+    'selector', 
+    'myModule'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -27,7 +29,7 @@ angular
       })
       .when('/list/:call_type', {
         templateUrl: 'views/display.html',
-        controller: 'StuffContrl',
+        controller: 'fruitContrl',
         controllerAs: 'lister'
       })
       .otherwise({

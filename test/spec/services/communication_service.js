@@ -6,7 +6,7 @@ describe('Service: getThings', function () {
   var myService;
   beforeEach(function() {
     var $injector = angular.injector([ 'myModule' ]);
-    myService = $injector.get( 'myThingsService');
+    myService = $injector.get( 'communicationService');
   });
 
   var call_types = ['many', 'few'];
