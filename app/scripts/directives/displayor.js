@@ -25,29 +25,35 @@ angular.module('displayor', [])
       link: function($scope, element, attrs, $parent) {
         $scope.is_unselected = {};
         angular.forEach(['size', 'color'], function (param) {
-          var value = attrs[param];
+          var values = [];
           if (param === 'color') {
-            value = attrs[param].split(',')[0];
+            values = attrs[param].split(',');
           }
-          $scope[param] = value;//attrs[param];
+          else if (param === 'size') {
+            values = [attrs[param]];
+          }
 
-          $rootScope.$on(
-            ['display', $scope[param], false].join(':'),
-            function () {
-              $scope.is_unselected[param] = true;
-              element.addClass('ng-hide');
-            }
-          );
+          //$scope[param] = values;
 
-          $rootScope.$on(
-            ['display', $scope[param], true].join(':'),
-            function () {
-              delete $scope.is_unselected[param];
-              if (Object.keys($scope.is_unselected).length === 0) {
-                element.removeClass('ng-hide');
+          angular.forEach(values, function(value) {
+            $rootScope.$on(
+              ['display', value, false].join(':'),
+              function () {
+                $scope.is_unselected[[param, value].join(':') ] = true;
+                element.addClass('ng-hide');
               }
-            }
-          );
+            );
+
+            $rootScope.$on(
+              ['display', value, true].join(':'),
+              function () {
+                delete $scope.is_unselected[[param, value].join(':')];
+                if (Object.keys($scope.is_unselected).length === 0) {
+                  element.removeClass('ng-hide');
+                }
+              }
+            );
+          });
         });
 
         $parent.addThing($scope);

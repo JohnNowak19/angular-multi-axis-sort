@@ -17,11 +17,11 @@ angular.module('selector', [])
       restrict: 'E',
       transclude: true,
       scope: {},
-      link: function($scope, element, attrs){//, $parent) {
+      link: function($scope, element, attrs){
         $scope.title = attrs.title;
         $scope.selected = true;
       },
-      controller: function($scope) {//, $element) {
+      controller: function($scope) {
         $scope.select = function() {
           $rootScope.$broadcast([
             'display', $scope.title, $scope.selected

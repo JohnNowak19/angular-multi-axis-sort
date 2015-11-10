@@ -15,7 +15,8 @@ angular.module('angularApp')
       angular.forEach(things, function(attrs, _) { // jshint ignore:line
         angular.forEach(attrs, function(value, name) {
           if (!selectors[name]) { selectors[name] = {}; }
-          selectors[name][value] = true;
+          if (!Array.isArray(value)) { value = [value];}
+          angular.forEach(value, function (v) { selectors[name][v] = true; });
         });
       });
 

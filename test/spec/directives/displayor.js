@@ -20,7 +20,7 @@ describe('directive: displayors', function() {
     beforeEach(function () {
       compile(
         '<things>' +
-          '<thing color="Blue" size="Small">Blueberry</thing>' +
+          '<thing color="Blue,Green" size="Small">Bluegreenberry</thing>' +
         '</things>'
       );
     });
@@ -49,6 +49,19 @@ describe('directive: displayors', function() {
 
       // This shows the element again
       scope.$emit(['display', 'Blue', true].join(':'));
+      expect(li.hasClass('ng-hide')).toBeFalsy();
+
+      // This hides the element because of Green
+      scope.$emit(['display', 'Green', false].join(':'));
+      expect(li.hasClass('ng-hide')).toBeTruthy();
+      // This hides the element because of Blue (and Green is still hiding)
+      scope.$emit(['display', 'Blue', false].join(':'));
+      expect(li.hasClass('ng-hide')).toBeTruthy();
+      // This tries to show the element because of Blue (but Green is still hiding)
+      scope.$emit(['display', 'Blue', true].join(':'));
+      expect(li.hasClass('ng-hide')).toBeTruthy();
+      // This shows the element because of Green
+      scope.$emit(['display', 'Green', true].join(':'));
       expect(li.hasClass('ng-hide')).toBeFalsy();
     });
   });

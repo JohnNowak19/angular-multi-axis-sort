@@ -16,7 +16,7 @@ angular.module('myModule', []).factory('communicationService', function() {
   	'few': { 
 	  	'Blue Coconut': { size: 'Large', color: ['Blue'] },
 	    'Pomegrante': { size: 'Large', color: ['Red'] },
-	    'Cocunut': { size: 'Large', color: ['Green'] },
+	    'Rainbow Coconut': { size: 'Large', color: ['Green', 'Blue'] },
 	    'Cherry': { size: 'Small', color: ['Red'] }
 	}
   };
