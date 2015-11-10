@@ -23,14 +23,18 @@ angular.module('displayor', [])
       transclude: true,
       scope: {},
       link: function($scope, element, attrs, $parent) {
-        $scope.attributesSet = {};
+        $scope.is_unselected = {};
         angular.forEach(['size', 'color'], function (param) {
-          $scope[param] = attrs[param];
+          var value = attrs[param];
+          if (param === 'color') {
+            value = attrs[param].split(',')[0];
+          }
+          $scope[param] = value;//attrs[param];
 
           $rootScope.$on(
             ['display', $scope[param], false].join(':'),
             function () {
-              $scope.attributesSet[param] = true;
+              $scope.is_unselected[param] = true;
               element.addClass('ng-hide');
             }
           );
@@ -38,8 +42,8 @@ angular.module('displayor', [])
           $rootScope.$on(
             ['display', $scope[param], true].join(':'),
             function () {
-              delete $scope.attributesSet[param];
-              if (Object.keys($scope.attributesSet).length === 0) {
+              delete $scope.is_unselected[param];
+              if (Object.keys($scope.is_unselected).length === 0) {
                 element.removeClass('ng-hide');
               }
             }

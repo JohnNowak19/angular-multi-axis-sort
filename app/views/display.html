@@ -11,7 +11,7 @@
 <div><p>Things to select from:</p>
 <things>
   <div ng-repeat='(name, params) in things'>
-    <thing size="{{params.size}}" color="{{params.color}}">{{name}}</thing>
+    <thing size="{{params.size}}" color="{{params.color.join(',')}}">{{name}} ({{params.size}}, {{params.color.join(',')}})</thing>
   </div>
 </things>
 </div>
