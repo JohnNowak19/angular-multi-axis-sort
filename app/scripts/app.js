@@ -16,7 +16,7 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'displayor', 'selector'
+    'displayor', 'selector', 'myModule'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -25,30 +25,10 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/small', {
+      .when('/list/:call_type', {
         templateUrl: 'views/display.html',
         controller: 'StuffContrl',
-        controllerAs: 'small',
-        things: {
-          'Blue Coconut': { size: 'Large', color: 'Blue' },
-          'Pomegrante': { size: 'Large', color: 'Red' },
-          'Blueberry': { size: 'Small', color: 'Blue' },
-          'Cherry': { size: 'Small', color: 'Red' }
-        }
-      })
-      .when('/large', {
-        templateUrl: 'views/display.html',
-        controller: 'StuffContrl',
-        controllerAs: 'large',
-        things: {
-          'Blue Coconut': { size: 'Large', color: 'Blue' },
-          'Pomegrante': { size: 'Large', color: 'Red' },
-          'Cocunut': { size: 'Large', color: 'Green' },
-          'Apple': { size: 'Medium', color: 'Red' },
-          'Banana': { size: 'Medium', color: 'Yellow' },
-          'Blueberry': { size: 'Small', color: 'Blue' },
-          'Cherry': { size: 'Small', color: 'Red' }
-        }
+        controllerAs: 'lister'
       })
       .otherwise({
         redirectTo: '/'

@@ -1,14 +1,17 @@
 'use strict';
 
-
-
-
 describe('Service: getThings', function () {
   beforeEach(module('angularApp'));
 
+  var myService;
+  beforeEach(function() {
+    var $injector = angular.injector([ 'myModule' ]);
+    myService = $injector.get( 'myThingsService');
+  });
+
   var call_types = ['many', 'few'];
   angular.forEach(call_types, function (call_type) {
-    describe('calls to get_'+call_type, function(){
+    describe("calls to get_data('"+call_type+"')", function(){
       describe('responds in the callback', function(){
         var tests = [
           {'a': 1},
@@ -16,15 +19,11 @@ describe('Service: getThings', function () {
         ];
         angular.forEach(tests, function (item) {
           it(""+item, function(done) {
-            var $injector = angular.injector([ 'myModule' ]);
-            var myService = $injector.get( 'myThingsService');
-
-            myService[call_type+'_data'] = item;
-            myService['get_'+call_type](
-              function (stuff) {
-                expect(stuff).toEqual(item);
-                done();
-             });
+            myService.set_data(call_type, item);
+            myService.get_data(call_type, function (stuff) {
+              expect(stuff).toEqual(item);
+              done();
+            });
           });
         });
       });

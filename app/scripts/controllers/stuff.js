@@ -8,8 +8,7 @@
  * Controller of the angularApp
  */
 angular.module('angularApp')
-  .controller('StuffContrl', ['$scope', '$route', function ($scope, $route) {
-    $scope.things = $route.current.$$route.things;
+  .controller('StuffContrl', ['$scope', '$routeParams', 'myThingsService', function ($scope, $routeParams, myThingsService) {
    	var buildSelectors = function (things) {
       var selectors = {};
       // JSHint ignoring for unused variable '_'
@@ -27,6 +26,10 @@ angular.module('angularApp')
 
       return rv;
     };
-    $scope.selectors = buildSelectors( $scope.things );
+
+    myThingsService.get_data($routeParams.call_type, function(data) {
+      $scope.things = data;
+	  $scope.selectors = buildSelectors( $scope.things );
+    });
   }])
 ;

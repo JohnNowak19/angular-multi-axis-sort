@@ -3,30 +3,14 @@
 describe('Controller: StuffContrl', function () {
   beforeEach(module('angularApp'));
 
-  var StuffContrl, scope;
+  var scope;
 
-  // Initialize the controller and a mock scope and a mock route
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(function ($controller, $rootScope, myThingsService) {
     scope = $rootScope.$new();
-    StuffContrl = $controller('StuffContrl', {
-      $rootScope: $rootScope,
-      $scope: scope,
-      $route: {
-        current: {
-          '$$route': {
-            things: {
-              'Blue Coconut': { size: 'Large', color: 'Blue' },
-              'Pomegrante': { size: 'Large', color: 'Red' },
-              'Cocunut': { size: 'Large', color: 'Green' },
-              'Apple': { size: 'Medium', color: 'Red' },
-              'Banana': { size: 'Medium', color: 'Yellow' },
-              'Blueberry': { size: 'Small', color: 'Blue' },
-              'Cherry': { size: 'Small', color: 'Red' }
-            }
-          }
-        }
-      }
-      // place here mocked dependencies
+    $controller('StuffContrl', {
+      '$scope': scope,
+      '$routeParams': {'call_type': 'many'},
+      'myThingsService': myThingsService
     });
   }));
 
