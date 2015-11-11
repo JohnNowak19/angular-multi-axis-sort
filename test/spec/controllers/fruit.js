@@ -7,18 +7,18 @@ describe('Controller: fruitContrl', function () {
 
   beforeEach(inject(function ($controller, $rootScope, communicationService) {
     scope = $rootScope.$new();
-    communicationService.set_data('many', {
-      "Blue Coconut": { "size": "Large", "color": ["Blue"] },
-      "Pomegrante": { "size": "Large", "color": ["Red"] },
-      "Cocunut": { "size": "Large", "color": ["Green"] },
-      "Apple": { "size": "Medium", "color": ["Red"] },
-      "Banana": { "size": "Medium", "color": ["Yellow"] },
-      "Blueberry": { "size": "Small", "color": ["Blue"] },
-      "Cherry": { "size": "Small", "color": ["Red"] }
+    communicationService.set_data('track', {
+      "Blue Coconut": { "track": "Large", "ubarea": ["Blue"] },
+      "Pomegrante": { "track": "Large", "ubarea": ["Red"] },
+      "Cocunut": { "track": "Large", "ubarea": ["Green"] },
+      "Apple": { "track": "Medium", "ubarea": ["Red"] },
+      "Banana": { "track": "Medium", "ubarea": ["Yellow"] },
+      "Blueberry": { "track": "Small", "ubarea": ["Blue"] },
+      "Cherry": { "track": "Small", "ubarea": ["Red"] }
     });
     $controller('fruitContrl', {
       '$scope': scope,
-      '$routeParams': {'call_type': 'many'},
+      '$routeParams': {'call_type': 'track'},
       'communicationService': communicationService
     });
   }));

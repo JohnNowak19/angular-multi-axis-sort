@@ -39,7 +39,7 @@ describe('directive: displayors', function() {
     beforeEach(function () {
       compile(
         '<things>' +
-          '<thing color="Blue,Green" size="Small">Bluegreenberry</thing>' +
+          '<thing track="Blue,Green" ubarea="Small">Bluegreenberry</thing>' +
         '</things>'
       );
     });
@@ -94,9 +94,9 @@ describe('directive: displayors', function() {
     beforeEach(function () {
       compile(
         '<things>' +
-          '<thing color="Blue" size="Small">blue-small</thing>' +
-          '<thing color="Blue" size="Large">blue-large</thing>' +
-          '<thing color="Red" size="Large">red-large</thing>' +
+          '<thing track="Blue" ubarea="Small">blue-small</thing>' +
+          '<thing track="Blue" ubarea="Large">blue-large</thing>' +
+          '<thing track="Red" ubarea="Large">red-large</thing>' +
         '</things>'
       );
     });

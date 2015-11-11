@@ -13,7 +13,7 @@ describe('Service: getThings', function () {
     httpBackend.flush();
   });
 
-  var call_types = ['many', 'few'];
+  var call_types = ['track', 'ubarea'];
   angular.forEach(call_types, function (call_type) {
     describe("calls to get_data('"+call_type+"')", function(){
       describe('responds in the callback', function(){

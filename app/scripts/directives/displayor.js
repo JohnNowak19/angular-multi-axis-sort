@@ -32,7 +32,7 @@ angular.module('displayor', [])
           return !hideme;
         };
         var is_visible = function () {
-          return visible_for('color') && visible_for('size');
+          return visible_for('ubarea') && visible_for('track');
         };
         var alter_visibility_for = function (param, truthy) {
           angular.forEach(visibility[param], function(_, key) {//jshint ignore:line
@@ -47,14 +47,9 @@ angular.module('displayor', [])
           else { element.addClass('ng-hide'); }
         };
 
-        angular.forEach(['size', 'color'], function (param) {
-          var values = [];
-          if (param === 'color') {
-            values = attrs[param].split(',');
-          }
-          else { //if (param === 'size') {
-            values = [attrs[param]];
-          }
+        angular.forEach(['track', 'ubarea'], function (param) {
+          console.log(attrs, param);
+          var values = attrs[param].split(',');
 
           $scope.$on('show-all-'+param, function () {
             alter_visibility_for(param, true);

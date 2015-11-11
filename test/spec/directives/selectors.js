@@ -19,8 +19,8 @@ describe('directive: selectors', function() {
   describe('creating a selector', function() {
     beforeEach(function () {
       compile(
-        '<selectors title="Color">' +
-          '<selector title="Blue"/>' +
+        '<selectors title="ubarea">' +
+          '<selector title="Arts"/>' +
         '</selectors>'
       );
     });
@@ -35,7 +35,7 @@ describe('directive: selectors', function() {
 
       angular.forEach([true, false], function (val) {
         scope.$on(
-          ['display', 'Blue', val].join(':'),
+          ['display', 'Arts', val].join(':'),
           function () { selected = val; }
         );
       });

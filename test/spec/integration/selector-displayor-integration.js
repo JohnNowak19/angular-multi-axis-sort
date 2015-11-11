@@ -20,21 +20,21 @@ describe('selector-displayer: integration test', function() {
   beforeEach(function () {
     compile(
     	'<div>' +
-    	'<selectors title="size">' +
+    	'<selectors title="track">' +
           	'<selector title="Small"/>' +
         	'<selector title="Large"/>' +
         '</selectors>' +
-		'<selectors title="color">' +
+		'<selectors title="ubarea">' +
           	'<selector title="Blue"/>' +
         	'<selector title="Green"/>' +
         	'<selector title="Red"/>' +
         '</selectors>' +
       	'<things>' +
-	        '<thing color="Green" size="Small">Greenberry</thing>' +
-	        '<thing color="Blue" size="Large">blue-large</thing>' +
-	        '<thing color="Red" size="Large">red-large</thing>' +
-	        '<thing color="Green" size="Large">green-large</thing>' +
-	        '<thing color="Red,Blue" size="Small">redblue-small</thing>' +
+	        '<thing ubarea="Green" track="Small">Greenberry</thing>' +
+	        '<thing ubarea="Blue" track="Large">blue-large</thing>' +
+	        '<thing ubarea="Red" track="Large">red-large</thing>' +
+	        '<thing ubarea="Green" track="Large">green-large</thing>' +
+	        '<thing ubarea="Red,Blue" track="Small">redblue-small</thing>' +
 	      '</things>' +
 	      '</div>' 
     );
@@ -60,7 +60,7 @@ describe('selector-displayer: integration test', function() {
 /*
   describe('click everything', function() {
 	  it('should display all ', function() {
-	    // Start with 2 sizes, 3 colors, 5 items
+	    // Start with 2 tracks, 3 ubareas, 5 items
 	    // Verify nothing selected, everything visible.
 	   	//var li = element.find('li');
 	   	var inputs = element.find('input');
@@ -76,7 +76,7 @@ describe('selector-displayer: integration test', function() {
 
   describe('clicking a selector and evaluate a displayor ', function() {
 	  it('should display the ', function() {
-	    // Start with 2 sizes, 2 colors, 5 items
+	    // Start with 2 tracks, 2 ubareas, 5 items
 
       var li = element.find('li');
 
