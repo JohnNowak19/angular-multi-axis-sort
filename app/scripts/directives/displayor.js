@@ -16,7 +16,7 @@ angular.module('displayor', [])
       replace: true,
     };
   })
-  .directive('thing', [ '$rootScope', function ($rootScope) {
+  .directive('thing', [ function () {
     return {
       require: '^things',
       restrict: 'E',
@@ -24,6 +24,28 @@ angular.module('displayor', [])
       scope: {},
       link: function($scope, element, attrs, $parent) {
         var visibility = {};
+        var visible_for = function (param) {
+          var hideme = true;
+          angular.forEach(visibility[param], function (visible) {
+            if (visible) { hideme = false; }
+          });
+          return !hideme;
+        };
+        var is_visible = function () {
+          return visible_for('color') && visible_for('size');
+        };
+        var alter_visibility_for = function (param, truthy) {
+          angular.forEach(visibility[param], function(_, key) {//jshint ignore:line
+            visibility[param][key] = truthy;
+          });
+        };
+        var set_visibility_for = function (param, value, truthy) {
+          visibility[param][value] = truthy;
+        };
+        var update_element_visibility = function () {
+          if (is_visible()) { element.removeClass('ng-hide'); }
+          else { element.addClass('ng-hide'); }
+        };
 
         angular.forEach(['size', 'color'], function (param) {
           var values = [];
@@ -34,37 +56,33 @@ angular.module('displayor', [])
             values = [attrs[param]];
           }
 
-          var is_visible = function (param) {
-            var hideme = true;
-            angular.forEach(visibility[param], function (visible) {
-              if (visible) { hideme = false; }
+          $scope.$on('show-all-'+param, function () {
+            alter_visibility_for(param, true);
+
+            update_element_visibility();
+          });
+          $scope.$on('hide-if-not-'+param, function (_, value) {//jshint ignore:line
+            // FIXME: Consider using indexOf()
+            var found = false;
+            angular.forEach(values, function (val) {
+              if (val === value) { found = true; }
             });
-            return !hideme;
-          };
+            if (!found) { alter_visibility_for(param, false); }
+
+            update_element_visibility();
+          });
 
           visibility[param] = {};
           angular.forEach(values, function(value) {
             // Always start as being visible
-            visibility[param][value] = true;
+            set_visibility_for(param, value, true);
 
-            $rootScope.$on(
-              ['display', value, false].join(':'),
-              function () {
-                visibility[param][value] = false;
-
-                if (!is_visible(param)) { element.addClass('ng-hide'); }
-              }
-            );
-
-            $rootScope.$on(
-              ['display', value, true].join(':'),
-              function () {
-                visibility[param][value] = true;
-                if (is_visible('size') && is_visible('color')) {
-                  element.removeClass('ng-hide');
-                }
-              }
-            );
+            angular.forEach([true, false], function (truthy) {
+              $scope.$on(['display', value, truthy].join(':'), function () {
+                set_visibility_for(param, value, truthy);
+                update_element_visibility();
+              });
+            });
           });
         });
 

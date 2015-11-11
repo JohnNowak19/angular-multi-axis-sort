@@ -1,7 +1,7 @@
 <h2>Selecting</h2>
 <div ng-repeat='(header, values) in selectors'>
   <p>{{header}}</p>
-  <selectors>
+  <selectors title="{{header}}">
     <div ng-repeat='aspect in values'>
       <selector title="{{aspect}}"/>
   </div>

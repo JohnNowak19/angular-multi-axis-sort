@@ -1,11 +1,12 @@
 'use strict';
 
 describe('directive: displayors', function() {
-  var element, scope;
+  var element, scope, rootScope;
 
   beforeEach(module('angularApp'));
 
   beforeEach(inject(function($rootScope) {
+    rootScope = $rootScope;
     scope = $rootScope.$new();
   }));
 
@@ -23,12 +24,11 @@ describe('directive: displayors', function() {
     expect(elem.hasClass('ng-hide')).toBeTruthy();
   }
 
-  // FIXME: Why do we use $emit here, but $broadcast in the main code?
   function hide_on(attr){
-    scope.$emit(['display', attr, false].join(':'));
+    rootScope.$broadcast(['display', attr, false].join(':'));
   }
   function show_on(attr){
-    scope.$emit(['display', attr, true].join(':'));
+    rootScope.$broadcast(['display', attr, true].join(':'));
   }
 
   function matches_itself(elm, text){
