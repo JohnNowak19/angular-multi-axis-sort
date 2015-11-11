@@ -1,11 +1,12 @@
 'use strict';
 
 describe('directive: displayors', function() {
-  var element, scope;
+  var element, scope, rootScope;
 
   beforeEach(module('angularApp'));
 
   beforeEach(inject(function($rootScope) {
+    rootScope = $rootScope;
     scope = $rootScope.$new();
   }));
 
@@ -16,11 +17,29 @@ describe('directive: displayors', function() {
     scope.$digest();
   }
 
+  function is_visible(elem) {
+    expect(elem.hasClass('ng-hide')).toBeFalsy();
+  }
+  function is_hidden(elem) {
+    expect(elem.hasClass('ng-hide')).toBeTruthy();
+  }
+
+  function hide_on(attr){
+    rootScope.$broadcast(['display', attr, false].join(':'));
+  }
+  function show_on(attr){
+    rootScope.$broadcast(['display', attr, true].join(':'));
+  }
+
+  function matches_itself(elm, text){
+    expect(elm.text()).toEqual(''+text+'');
+  }
+
   describe('creating a displayor', function() {
     beforeEach(function () {
       compile(
         '<things>' +
-          '<thing color="Blue" size="Small">Blueberry</thing>' +
+          '<thing color="Blue,Green" size="Small">Bluegreenberry</thing>' +
         '</things>'
       );
     });
@@ -29,29 +48,47 @@ describe('directive: displayors', function() {
       expect(element.find('li').length).toEqual(1);
     });
 
-    // FIXME: Why do we use $emit here, but $broadcast in the main code?
     it('should receive on the right topic', function() {
       var li = element.find('li');
 
-      expect(li.hasClass('ng-hide')).toBeFalsy();
+      // We start as visible.
+      is_visible(li);
 
       // This doesn't change anything
-      scope.$emit(['display', 'Blue', true].join(':'));
-      expect(li.hasClass('ng-hide')).toBeFalsy();
+      show_on('Blue');
+      is_visible(li);
 
-      // This hides the element
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
+      // This doesn't hide the element (green is still visible)
+      hide_on('Blue');
+      is_visible(li);
 
-      // This doesn't do anything once hidden
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(li.hasClass('ng-hide')).toBeTruthy();
+      // This doesn't do anything when called twice
+      hide_on('Blue');
+      is_visible(li);
 
-      // This shows the element again
-      scope.$emit(['display', 'Blue', true].join(':'));
-      expect(li.hasClass('ng-hide')).toBeFalsy();
+      // This doesn't change anything if blue is now visible
+      show_on('Blue');
+      is_visible(li);
+      
+      // This also doesn't hide the element (green only, but blue still visible)
+      hide_on('Green');
+      is_visible(li);
+
+      // NOW we're finally hidden (both blue and green are hidden)
+      hide_on('Blue');
+      is_hidden(li);
+
+      // This shows the element because of Blue (but Green is still hiding)
+      show_on('Blue');
+      is_visible(li);
+
+      // This doesn't change anything (already visible)
+      show_on('Green');
+      is_visible(li);
+
     });
   });
+
 
   describe('for all attributes', function() {
     beforeEach(function () {
@@ -64,58 +101,58 @@ describe('directive: displayors', function() {
       );
     });
 
-    // FIXME: Why do we use $emit here, but $broadcast in the main code?
     it('will only display', function() {
       var li = element.find('li');
 
       var blue_small = angular.element(li[0]);
-      expect(blue_small.text()).toEqual('blue-small');
-      expect(blue_small.hasClass('ng-hide')).toBeFalsy();
+      matches_itself( blue_small, 'blue-small');
+      is_visible(blue_small);
 
       var blue_large = angular.element(li[1]);
-      expect(blue_large.text()).toEqual('blue-large');
-      expect(blue_large.hasClass('ng-hide')).toBeFalsy();
+      matches_itself( blue_large, 'blue-large' );
+      is_visible(blue_large);
 
       var red_large = angular.element(li[2]);
-      expect(red_large.text()).toEqual('red-large');
-      expect(red_large.hasClass('ng-hide')).toBeFalsy();
+      matches_itself( red_large, 'red-large' );
+      is_visible(red_large);
 
       // Turn off all selectors
-      scope.$emit(['display', 'Blue', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeFalsy();
+      hide_on('Blue');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_visible(red_large);
 
-      scope.$emit(['display', 'Small', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeFalsy();
+      hide_on('Small');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_visible(red_large);
 
-      scope.$emit(['display', 'Red', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Red');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
 
-      scope.$emit(['display', 'Large', false].join(':'));
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      hide_on('Large');
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
 
       // Show the Blue things
-      scope.$emit(['display', 'Blue', true].join(':'));
+      show_on('Blue');
 
       // Everything should remain hidden
-      expect(blue_small.hasClass('ng-hide')).toBeTruthy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      is_hidden(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
 
       // Show the Small things
-      scope.$emit(['display', 'Small', true].join(':'));
+      show_on('Small');
 
       // Only the blue-small thing should be shown
-      expect(blue_small.hasClass('ng-hide')).toBeFalsy();
-      expect(blue_large.hasClass('ng-hide')).toBeTruthy();
-      expect(red_large.hasClass('ng-hide')).toBeTruthy();
+      is_visible(blue_small);
+      is_hidden(blue_large);
+      is_hidden(red_large);
     });
   });
+
 });

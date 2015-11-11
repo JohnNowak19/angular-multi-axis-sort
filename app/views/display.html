@@ -1,7 +1,7 @@
 <h2>Selecting</h2>
 <div ng-repeat='(header, values) in selectors'>
   <p>{{header}}</p>
-  <selectors>
+  <selectors title="{{header}}">
     <div ng-repeat='aspect in values'>
       <selector title="{{aspect}}"/>
   </div>
@@ -11,7 +11,7 @@
 <div><p>Things to select from:</p>
 <things>
   <div ng-repeat='(name, params) in things'>
-    <thing size="{{params.size}}" color="{{params.color}}">{{name}}</thing>
+    <thing size="{{params.size}}" color="{{params.color.join(',')}}">{{name}} ({{params.size}}, {{params.color.join(',')}})</thing>
   </div>
 </things>
 </div>

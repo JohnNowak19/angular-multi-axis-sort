@@ -19,7 +19,7 @@ describe('directive: selectors', function() {
   describe('creating a selector', function() {
     beforeEach(function () {
       compile(
-        '<selectors>' +
+        '<selectors title="Color">' +
           '<selector title="Blue"/>' +
         '</selectors>'
       );
@@ -31,7 +31,7 @@ describe('directive: selectors', function() {
 
     it('should publish on the right topic', function() {
       // The checkboxes start checked
-      var selected = true;
+      var selected = false;
 
       angular.forEach([true, false], function (val) {
         scope.$on(
@@ -42,11 +42,11 @@ describe('directive: selectors', function() {
 
       // This de-selects the checkbox
       element.find('input').click();
-      expect(selected).toBeFalsy();
+      expect(selected).toBeTruthy();
 
       // This re-selects the checkbox
       element.find('input').click();
-      expect(selected).toBeTruthy();
+      expect(selected).toBeFalsy();
     });
   });
 });

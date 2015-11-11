@@ -1,0 +1,6 @@
+{ 
+	"Blue Coconut": { "size": "Large", "color": ["Blue"] },
+	"Pomegrante": { "size": "Large", "color": ["Red"] },
+	"Rainbow Coconut": { "size": "Large", "color": ["Green", "Blue"] },
+	"Cherry": { "size": "Small", "color": ["Red"] }
+}
