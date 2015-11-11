@@ -3,10 +3,14 @@
 describe('Service: getThings', function () {
   beforeEach(module('angularApp'));
 
-  var myService;
-  beforeEach(function() {
-    var $injector = angular.injector([ 'myModule' ]);
-    myService = $injector.get( 'communicationService');
+  var myService, httpBackend;
+  beforeEach(inject(function ($httpBackend, _communicationService_) {
+    myService = _communicationService_;
+    httpBackend = $httpBackend;
+  }));
+
+  afterEach(function () {
+    httpBackend.flush();
   });
 
   var call_types = ['many', 'few'];
@@ -18,11 +22,14 @@ describe('Service: getThings', function () {
           {'a': 2},
         ];
         angular.forEach(tests, function (item) {
-          it(""+item, function(done) {
-            myService.set_data(call_type, item);
+          it(""+item, function() {
+            // Use httpBackend.whenGET(url, data) for setting what should be returned in a GET
+            // q.v. http://nathanleclaire.com/blog/2014/04/12/unit-testing-services-in-angularjs-for-fun-and-for-profit/
+
+            var url = '/mocked_data/'+call_type+'.json';
+            httpBackend.expectGET(url).respond(item);
             myService.get_data(call_type, function (stuff) {
               expect(stuff).toEqual(item);
-              done();
             });
           });
         });

@@ -445,10 +445,10 @@ module.exports = function (grunt) {
       default: {
         options: {
           thresholds: {
-            'statements': 90,
-            'branches': 90,
-            'lines': 90,
-            'functions': 90
+            'statements': 100,
+            'branches': 100,
+            'lines': 100,
+            'functions': 100
           },
           dir: 'coverage/report-json',
           root: 'test'
@@ -486,7 +486,8 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma'//,
+    //'coverage' // This isn't validating that coverage does work. Instead, have to run 'grunt coverage'
   ]);
 
   grunt.registerTask('build', [
@@ -509,7 +510,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'newer:jshint',
-    'test'
-    //,'build'
+    'test',
   ]);
 };

@@ -1,33 +1,35 @@
 'use strict';
 
-angular.module('myModule', []).factory('communicationService', function() {
-  var impl = {};
+angular.module('myModule', []).factory('communicationService', [
+  '$http',
+  function($http) {
+    var impl = {};
 
-  var data = {
-  	'many': { 
-  		'Blue Coconut': { size: 'Large', color: ['Blue'] },
-	    'Pomegrante': { size: 'Large', color: ['Red'] },
-	    'Cocunut': { size: 'Large', color: ['Green'] },
-	    'Apple': { size: 'Medium', color: ['Red'] },
-	    'Banana': { size: 'Medium', color: ['Yellow'] },
-	    'Blueberry': { size: 'Small', color: ['Blue'] },
-	    'Cherry': { size: 'Small', color: ['Red'] }
-	},
-  	'few': { 
-	  	'Blue Coconut': { size: 'Large', color: ['Blue'] },
-	    'Pomegrante': { size: 'Large', color: ['Red'] },
-	    'Rainbow Coconut': { size: 'Large', color: ['Green', 'Blue'] },
-	    'Cherry': { size: 'Small', color: ['Red'] }
-	}
-  };
+    var data = {};
 
-  impl.set_data = function(call_type, item){
-    data[call_type] = item;  	
-  };
+    impl.set_data = function(call_type, item){
+      data[call_type] = item;  	
+    };
 
-  impl.get_data = function(call_type, callback){
-    callback(data[call_type]);
-  };
+    impl.get_data = function(call_type, callback){
+      if (data[call_type]) {
+        callback(data[call_type]);
+      }
+      else {
+        var url = '/mocked_data/' + call_type + '.json';
+        $http.get(url).then(
+          function (response) {
+            impl.set_data(call_type, response.data);
+            callback(data[call_type]);
+          },
+          /* istanbul ignore next: Not going to reproduce a window.alert() */
+          function () {
+            window.alert("Failed to call " + url);
+          }
+        );
+      }
+    };
 
-  return impl;
-});
+    return impl;
+  }
+]);
