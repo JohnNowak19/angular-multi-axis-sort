@@ -48,7 +48,6 @@ angular.module('displayor', [])
         };
 
         angular.forEach(['track', 'ubarea'], function (param) {
-          console.log(attrs, param);
           var values = attrs[param].split(',');
 
           $scope.$on('show-all-'+param, function () {
