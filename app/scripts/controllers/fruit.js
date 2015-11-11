@@ -11,16 +11,9 @@ angular.module('angularApp')
   .controller('fruitContrl', [
     '$scope', '$routeParams', 'communicationService',
     function ($scope, $routeParams, communicationService) {
-      communicationService.get_data($routeParams.call_type, function(data) {
-        $scope.things = data;
-  	    $scope.selectors = {
-          track: [
-            'Large', 'Medium', 'Small'
-          ],
-          ubarea: [
-            'Blue', 'Green', 'Red', 'Yellow'
-          ]
-        };
+      communicationService.get_data($routeParams.call_type, function(rv) {
+        $scope.things = rv.topics;
+  	    $scope.selectors = rv.selectors;
       });
     }
   ]);

@@ -5,9 +5,9 @@ describe('Controller: fruitContrl', function () {
 
   var scope;
 
-  beforeEach(inject(function ($controller, $rootScope, communicationService) {
+  beforeEach(inject(function ($controller, $rootScope, _communicationService_) {
     scope = $rootScope.$new();
-    communicationService.set_data('track', {
+    _communicationService_.set_data('track', {
       "Blue Coconut": { "track": "Large", "ubarea": ["Blue"] },
       "Pomegrante": { "track": "Large", "ubarea": ["Red"] },
       "Cocunut": { "track": "Large", "ubarea": ["Green"] },
@@ -19,13 +19,10 @@ describe('Controller: fruitContrl', function () {
     $controller('fruitContrl', {
       '$scope': scope,
       '$routeParams': {'call_type': 'track'},
-      'communicationService': communicationService
+      'communicationService': _communicationService_
     });
   }));
 
-  it('should attach a hash of selectors to the scope', function () {
-    expect(Object.keys(scope.selectors).length).toBe(2);
-  });
   it('should attach a hash of things to the scope', function () {
     expect(Object.keys(scope.things).length).toBe(7);
   });

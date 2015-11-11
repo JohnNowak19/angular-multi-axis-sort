@@ -29,7 +29,7 @@ describe('Service: getThings', function () {
             var url = '/mocked_data/'+call_type+'.json';
             httpBackend.expectGET(url).respond(item);
             myService.get_data(call_type, function (stuff) {
-              expect(stuff).toEqual(item);
+              expect(stuff.topics).toEqual(item);
             });
           });
         });
